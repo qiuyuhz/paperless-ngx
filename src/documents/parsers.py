@@ -246,7 +246,9 @@ def make_thumbnail_from_pdf(in_path, temp_dir, logging_group=None) -> Path:
         )
     except ParseError as e:
         logger.error(f"Unable to make thumbnail with convert: {e}")
-        out_path = make_thumbnail_from_pdf_gs_fallback(in_path, temp_dir, logging_group)
+        out_path = Path(
+            make_thumbnail_from_pdf_gs_fallback(in_path, temp_dir, logging_group),
+        )
 
     return out_path
 

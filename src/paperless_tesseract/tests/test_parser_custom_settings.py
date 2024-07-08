@@ -1,10 +1,9 @@
 import json
 
-from django.test import TestCase
+import pytest
 from django.test import override_settings
+from pytest_django.fixtures import SettingsWrapper
 
-from documents.tests.utils import DirectoriesMixin
-from documents.tests.utils import FileSystemAssertsMixin
 from paperless.models import ApplicationConfiguration
 from paperless.models import CleanChoices
 from paperless.models import ColorConvertChoices
@@ -13,7 +12,8 @@ from paperless.models import OutputTypeChoices
 from paperless_tesseract.parsers import RasterisedDocumentParser
 
 
-class TestParserSettingsFromDb(DirectoriesMixin, FileSystemAssertsMixin, TestCase):
+@pytest.mark.django_db()
+class TestParserSettingsFromDb:
     @staticmethod
     def get_params():
         """
@@ -27,7 +27,14 @@ class TestParserSettingsFromDb(DirectoriesMixin, FileSystemAssertsMixin, TestCas
             safe_fallback=False,
         )
 
-    def test_db_settings_ocr_pages(self):
+    # TODO: Make a fixture?
+    @staticmethod
+    def get_application_config() -> ApplicationConfiguration:
+        instance = ApplicationConfiguration.objects.first()
+        assert instance is not None
+        return instance
+
+    def test_db_settings_ocr_pages(self, settings: SettingsWrapper):
         """
         GIVEN:
             - Django settings defines different value for OCR_PAGES than
@@ -37,15 +44,16 @@ class TestParserSettingsFromDb(DirectoriesMixin, FileSystemAssertsMixin, TestCas
         THEN:
             - Configuration from database is utilized
         """
-        with override_settings(OCR_PAGES=10):
-            instance = ApplicationConfiguration.objects.all().first()
-            instance.pages = 5
-            instance.save()
+        settings.OCR_PAGES = 10
+        instance = self.get_application_config()
+        instance.pages = 5
+        instance.save()
 
-            params = self.get_params()
-        self.assertEqual(params["pages"], "1-5")
+        params = self.get_params()
 
-    def test_db_settings_ocr_language(self):
+        assert params["pages"] == "1-5"
+
+    def test_db_settings_ocr_language(self, settings: SettingsWrapper):
         """
         GIVEN:
             - Django settings defines different value for OCR_LANGUAGE than
@@ -55,15 +63,17 @@ class TestParserSettingsFromDb(DirectoriesMixin, FileSystemAssertsMixin, TestCas
         THEN:
             - Configuration from database is utilized
         """
-        with override_settings(OCR_LANGUAGE="eng+deu"):
-            instance = ApplicationConfiguration.objects.all().first()
-            instance.language = "fra+ita"
-            instance.save()
+        settings.OCR_LANGUAGE = "eng+deu"
 
-            params = self.get_params()
-        self.assertEqual(params["language"], "fra+ita")
+        instance = self.get_application_config()
+        instance.language = "fra+ita"
+        instance.save()
 
-    def test_db_settings_ocr_output_type(self):
+        params = self.get_params()
+
+        assert params["language"] == "fra+ita"
+
+    def test_db_settings_ocr_output_type(self, settings: SettingsWrapper):
         """
         GIVEN:
             - Django settings defines different value for OCR_OUTPUT_TYPE than
@@ -73,15 +83,16 @@ class TestParserSettingsFromDb(DirectoriesMixin, FileSystemAssertsMixin, TestCas
         THEN:
             - Configuration from database is utilized
         """
-        with override_settings(OCR_OUTPUT_TYPE="pdfa-3"):
-            instance = ApplicationConfiguration.objects.all().first()
-            instance.output_type = OutputTypeChoices.PDF_A
-            instance.save()
+        settings.OCR_OUTPUT_TYPE = "pdfa-3"
+        instance = self.get_application_config()
+        instance.output_type = OutputTypeChoices.PDF_A
+        instance.save()
 
-            params = self.get_params()
-        self.assertEqual(params["output_type"], "pdfa")
+        params = self.get_params()
 
-    def test_db_settings_ocr_mode(self):
+        assert params["output_type"] == "pdfa"
+
+    def test_db_settings_ocr_mode(self, settings: SettingsWrapper):
         """
         GIVEN:
             - Django settings defines different value for OCR_MODE than
@@ -91,17 +102,18 @@ class TestParserSettingsFromDb(DirectoriesMixin, FileSystemAssertsMixin, TestCas
         THEN:
             - Configuration from database is utilized
         """
-        with override_settings(OCR_MODE="redo"):
-            instance = ApplicationConfiguration.objects.all().first()
-            instance.mode = ModeChoices.SKIP
-            instance.save()
+        settings.OCR_MODE = "redo"
+        instance = self.get_application_config()
+        instance.mode = ModeChoices.SKIP
+        instance.save()
 
-            params = self.get_params()
-        self.assertTrue(params["skip_text"])
-        self.assertNotIn("redo_ocr", params)
-        self.assertNotIn("force_ocr", params)
+        params = self.get_params()
 
-    def test_db_settings_ocr_clean(self):
+        assert params["skip_text"]
+        assert "redo_ocr" not in params
+        assert "force_ocr" not in params
+
+    def test_db_settings_ocr_clean(self, settings: SettingsWrapper):
         """
         GIVEN:
             - Django settings defines different value for OCR_CLEAN than
@@ -111,25 +123,26 @@ class TestParserSettingsFromDb(DirectoriesMixin, FileSystemAssertsMixin, TestCas
         THEN:
             - Configuration from database is utilized
         """
-        with override_settings(OCR_CLEAN="clean-final"):
-            instance = ApplicationConfiguration.objects.all().first()
-            instance.unpaper_clean = CleanChoices.CLEAN
-            instance.save()
+        settings.OCR_CLEAN = CleanChoices.FINAL.value
+        instance = self.get_application_config()
+        instance.unpaper_clean = CleanChoices.CLEAN
+        instance.save()
 
-            params = self.get_params()
-        self.assertTrue(params["clean"])
-        self.assertNotIn("clean_final", params)
+        params = self.get_params()
+
+        assert params["clean"]
+        assert "clean_final" not in params
 
         with override_settings(OCR_CLEAN="clean-final"):
-            instance = ApplicationConfiguration.objects.all().first()
+            instance = self.get_application_config()
             instance.unpaper_clean = CleanChoices.FINAL
             instance.save()
 
             params = self.get_params()
-        self.assertTrue(params["clean_final"])
-        self.assertNotIn("clean", params)
+        assert params["clean_final"]
+        assert "clean" not in params
 
-    def test_db_settings_ocr_deskew(self):
+    def test_db_settings_ocr_deskew(self, settings: SettingsWrapper):
         """
         GIVEN:
             - Django settings defines different value for OCR_DESKEW than
@@ -139,15 +152,16 @@ class TestParserSettingsFromDb(DirectoriesMixin, FileSystemAssertsMixin, TestCas
         THEN:
             - Configuration from database is utilized
         """
-        with override_settings(OCR_DESKEW=False):
-            instance = ApplicationConfiguration.objects.all().first()
-            instance.deskew = True
-            instance.save()
+        settings.OCR_DESKEW = False
+        instance = self.get_application_config()
+        instance.deskew = True
+        instance.save()
 
-            params = self.get_params()
-        self.assertTrue(params["deskew"])
+        params = self.get_params()
 
-    def test_db_settings_ocr_rotate(self):
+        assert params["deskew"]
+
+    def test_db_settings_ocr_rotate(self, settings: SettingsWrapper):
         """
         GIVEN:
             - Django settings defines different value for OCR_ROTATE_PAGES
@@ -157,17 +171,19 @@ class TestParserSettingsFromDb(DirectoriesMixin, FileSystemAssertsMixin, TestCas
         THEN:
             - Configuration from database is utilized
         """
-        with override_settings(OCR_ROTATE_PAGES=False, OCR_ROTATE_PAGES_THRESHOLD=30.0):
-            instance = ApplicationConfiguration.objects.all().first()
-            instance.rotate_pages = True
-            instance.rotate_pages_threshold = 15.0
-            instance.save()
+        settings.OCR_ROTATE_PAGES = False
+        settings.OCR_ROTATE_PAGES_THRESHOLD = 30.0
+        instance = self.get_application_config()
+        instance.rotate_pages = True
+        instance.rotate_pages_threshold = 15.0
+        instance.save()
 
-            params = self.get_params()
-        self.assertTrue(params["rotate_pages"])
-        self.assertAlmostEqual(params["rotate_pages_threshold"], 15.0)
+        params = self.get_params()
 
-    def test_db_settings_ocr_max_pixels(self):
+        assert params["rotate_pages"]
+        assert params["rotate_pages_threshold"] == pytest.approx(15.0)
+
+    def test_db_settings_ocr_max_pixels(self, settings: SettingsWrapper):
         """
         GIVEN:
             - Django settings defines different value for OCR_MAX_IMAGE_PIXELS than
@@ -177,15 +193,16 @@ class TestParserSettingsFromDb(DirectoriesMixin, FileSystemAssertsMixin, TestCas
         THEN:
             - Configuration from database is utilized
         """
-        with override_settings(OCR_MAX_IMAGE_PIXELS=2_000_000.0):
-            instance = ApplicationConfiguration.objects.all().first()
-            instance.max_image_pixels = 1_000_000.0
-            instance.save()
+        settings.OCR_MAX_IMAGE_PIXELS = 2_000_000.0
+        instance = self.get_application_config()
+        instance.max_image_pixels = 1_000_000.0
+        instance.save()
 
-            params = self.get_params()
-        self.assertAlmostEqual(params["max_image_mpixels"], 1.0)
+        params = self.get_params()
 
-    def test_db_settings_ocr_color_convert(self):
+        assert params["max_image_mpixels"] == pytest.approx(1.0)
+
+    def test_db_settings_ocr_color_convert(self, settings: SettingsWrapper):
         """
         GIVEN:
             - Django settings defines different value for OCR_COLOR_CONVERSION_STRATEGY than
@@ -195,18 +212,18 @@ class TestParserSettingsFromDb(DirectoriesMixin, FileSystemAssertsMixin, TestCas
         THEN:
             - Configuration from database is utilized
         """
-        with override_settings(OCR_COLOR_CONVERSION_STRATEGY="LeaveColorUnchanged"):
-            instance = ApplicationConfiguration.objects.all().first()
-            instance.color_conversion_strategy = ColorConvertChoices.INDEPENDENT
-            instance.save()
+        settings.OCR_COLOR_CONVERSION_STRATEGY = ColorConvertChoices.UNCHANGED.value
+        instance = self.get_application_config()
+        instance.color_conversion_strategy = ColorConvertChoices.INDEPENDENT
+        instance.save()
 
-            params = self.get_params()
-        self.assertEqual(
-            params["color_conversion_strategy"],
-            "UseDeviceIndependentColor",
+        params = self.get_params()
+
+        assert (
+            params["color_conversion_strategy"] == ColorConvertChoices.INDEPENDENT.value
         )
 
-    def test_ocr_user_args(self):
+    def test_ocr_user_args(self, settings: SettingsWrapper):
         """
         GIVEN:
             - Django settings defines different value for OCR_USER_ARGS than
@@ -216,17 +233,12 @@ class TestParserSettingsFromDb(DirectoriesMixin, FileSystemAssertsMixin, TestCas
         THEN:
             - Configuration from database is utilized
         """
-        with override_settings(
-            OCR_USER_ARGS=json.dumps({"continue_on_soft_render_error": True}),
-        ):
-            instance = ApplicationConfiguration.objects.all().first()
-            instance.user_args = {"unpaper_args": "--pre-rotate 90"}
-            instance.save()
+        settings.OCR_USER_ARGS = json.dumps({"continue_on_soft_render_error": True})
+        instance = self.get_application_config()
+        instance.user_args = {"unpaper_args": "--pre-rotate 90"}
+        instance.save()
 
-            params = self.get_params()
+        params = self.get_params()
 
-        self.assertIn("unpaper_args", params)
-        self.assertEqual(
-            params["unpaper_args"],
-            "--pre-rotate 90",
-        )
+        assert "unpaper_args" in params
+        assert params["unpaper_args"] == "--pre-rotate 90"
