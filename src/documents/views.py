@@ -31,6 +31,7 @@ from django.db.models import Sum
 from django.db.models import When
 from django.db.models.functions import Length
 from django.db.models.functions import Lower
+from django.http import FileResponse
 from django.http import Http404
 from django.http import HttpResponse
 from django.http import HttpResponseBadRequest
@@ -1499,10 +1500,11 @@ class BulkDownloadView(GenericAPIView):
         follow_filename_format = serializer.validated_data.get("follow_formatting")
 
         settings.SCRATCH_DIR.mkdir(parents=True, exist_ok=True)
-        temp = tempfile.NamedTemporaryFile(  # noqa: SIM115
-            dir=settings.SCRATCH_DIR,
-            suffix="-compressed-archive",
-            delete=False,
+        temp_dir = Path(
+            tempfile.TemporaryDirectory(
+                dir=settings.SCRATCH_DIR,
+                delete=False,
+            ),
         )
 
         if content == "both":
@@ -1512,20 +1514,14 @@ class BulkDownloadView(GenericAPIView):
         else:
             strategy_class = ArchiveOnlyStrategy
 
-        with zipfile.ZipFile(temp.name, "w", compression) as zipf:
+        zip_file = temp_dir / "documents.zip"
+
+        with zipfile.ZipFile(zip_file, "w", compression) as zipf:
             strategy = strategy_class(zipf, follow_filename_format)
             for document in Document.objects.filter(pk__in=ids):
                 strategy.add_document(document)
 
-        # TODO(stumpylog): Investigate using FileResponse here
-        with open(temp.name, "rb") as f:
-            response = HttpResponse(f, content_type="application/zip")
-            response["Content-Disposition"] = '{}; filename="{}"'.format(
-                "attachment",
-                "documents.zip",
-            )
-
-            return response
+        return FileResponse(zip_file.open("rb"), as_attachment=True)
 
 
 class StoragePathViewSet(ModelViewSet, PermissionsAwareDocumentCountMixin):
