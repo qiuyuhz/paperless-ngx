@@ -193,7 +193,7 @@ class TestSystemStatus(APITestCase):
         self.assertEqual(response.data["tasks"]["index_status"], "ERROR")
         self.assertIsNotNone(response.data["tasks"]["index_error"])
 
-    @override_settings(DATA_DIR="/tmp/does_not_exist/data/")
+    @override_settings(DATA_DIR=Path("/tmp/does_not_exist/data/"))
     def test_system_status_classifier_ok(self):
         """
         GIVEN:

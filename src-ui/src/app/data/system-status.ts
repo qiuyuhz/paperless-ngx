@@ -3,6 +3,13 @@ export enum InstallType {
   BareMetal = 'bare-metal',
 }
 
+export enum StorageType {
+  Originals = 'originals',
+  Archive = 'archive',
+  Thumbnails = 'thumbnails',
+  Data = 'data',
+}
+
 export enum SystemStatusItemStatus {
   OK = 'OK',
   ERROR = 'ERROR',
@@ -16,6 +23,10 @@ export interface SystemStatus {
   storage: {
     total: number
     available: number
+    originals_total: number
+    archive_total: number
+    thumbnails_total: number
+    data_total: number
   }
   database: {
     type: string

@@ -2003,6 +2003,18 @@ class SystemStatusView(PassUserMixin):
             db_error = "Error connecting to database, check logs for more detail."
 
         media_stats = os.statvfs(settings.MEDIA_ROOT)
+        data_size = sum(
+            f.stat().st_size for f in settings.DATA_DIR.glob("**/*") if f.is_file()
+        )
+        originals_size = sum(
+            f.stat().st_size for f in settings.ORIGINALS_DIR.glob("**/*") if f.is_file()
+        )
+        archive_size = sum(
+            f.stat().st_size for f in settings.ARCHIVE_DIR.glob("**/*") if f.is_file()
+        )
+        thumbnail_size = sum(
+            f.stat().st_size for f in settings.THUMBNAIL_DIR.glob("**/*") if f.is_file()
+        )
 
         redis_url = settings._CHANNELS_REDIS_URL
         redis_url_parsed = urlparse(redis_url)
@@ -2106,6 +2118,10 @@ class SystemStatusView(PassUserMixin):
                 "storage": {
                     "total": media_stats.f_frsize * media_stats.f_blocks,
                     "available": media_stats.f_frsize * media_stats.f_bavail,
+                    "originals_total": originals_size,
+                    "archive_total": archive_size,
+                    "thumbnails_total": thumbnail_size,
+                    "data_total": data_size,
                 },
                 "database": {
                     "type": db_conn.vendor,

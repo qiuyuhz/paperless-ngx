@@ -11,7 +11,7 @@
       </div>
     </div>
   } @else {
-    <div class="row row-cols-1 row-cols-md-3 g-3">
+    <div class="row row-cols-1 row-cols-md-4 g-3">
       <div class="col">
         <div class="card bg-light h-100">
           <div class="card-header">
@@ -25,10 +25,62 @@
               <dd>{{status.install_type}}</dd>
               <dt i18n>Server OS</dt>
               <dd>{{status.server_os}}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card bg-light h-100">
+          <div class="card-header">
+            <h5 class="card-title mb-0" i18n>Storage</h5>
+          </div>
+          <div class="card-body">
+            <dl class="card-text">
               <dt i18n>Media Storage</dt>
               <dd>
                 <ngb-progressbar style="height: 4px;" class="mt-2 mb-1" type="primary" [max]="status.storage.total" [value]="status.storage.total - status.storage.available"></ngb-progressbar>
                 <span class="small">{{status.storage.available | fileSize}} <ng-container i18n>available</ng-container> ({{status.storage.total | fileSize}} <ng-container i18n>total</ng-container>)</span>
+              </dd>
+              <dt i18n>Paperless Data</dt>
+              <dd>
+                <div class="progress flex-grow-1 mt-2 mb-1" style="height: 4px;">
+                  <div
+                    class="progress-bar bg-primary"
+                    role="progressbar"
+                    [ngbPopover]="getStatusPopover(StorageType.Originals)"
+                    i18n-ngbPopover
+                    triggers="mouseenter:mouseleave"
+                    [style.width]="(100 * status.storage.originals_total / paperlessStorageTotal) + '%'"
+                    [style.opacity]=".25">
+                  </div>
+                  <div class="progress-bar bg-primary"
+                    role="progressbar"
+                    [ngbPopover]="getStatusPopover(StorageType.Archive)"
+                    i18n-ngbPopover
+                    triggers="mouseenter:mouseleave"
+                    [style.width]="(100 * status.storage.archive_total / paperlessStorageTotal) + '%'"
+                    [style.opacity]=".5">
+                  </div>
+                  <div class="progress-bar bg-primary"
+                    role="progressbar"
+                    [ngbPopover]="getStatusPopover(StorageType.Thumbnails)"
+                    i18n-ngbPopover
+                    triggers="mouseenter:mouseleave"
+                    [style.width]="(100 * status.storage.thumbnails_total / paperlessStorageTotal) + '%'"
+                    [style.opacity]=".75">
+                  </div>
+                  <div
+                    class="progress-bar bg-primary"
+                    role="progressbar"
+                    [ngbPopover]="getStatusPopover(StorageType.Data)"
+                    i18n-ngbPopover
+                    triggers="mouseenter:mouseleave"
+                    [style.width]="(100 * status.storage.data_total / paperlessStorageTotal) + '%'"
+                    [style.opacity]="1">
+                  </div>
+                </div>
+                <span class="small">{{paperlessStorageTotal | fileSize}} <ng-container i18n>total</ng-container></span>
               </dd>
             </dl>
           </div>

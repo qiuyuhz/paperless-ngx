@@ -402,7 +402,14 @@ describe('SettingsComponent', () => {
       pngx_version: '2.4.3',
       server_os: 'macOS-14.1.1-arm64-arm-64bit',
       install_type: InstallType.BareMetal,
-      storage: { total: 494384795648, available: 13573525504 },
+      storage: {
+        total: 494384795648,
+        available: 13573525504,
+        originals_total: 494384795648,
+        archive_total: 494384795648,
+        thumbnails_total: 494384795648,
+        data_total: 494384795648,
+      },
       database: {
         type: 'sqlite',
         url: '/paperless-ngx/data/db.sqlite3',
