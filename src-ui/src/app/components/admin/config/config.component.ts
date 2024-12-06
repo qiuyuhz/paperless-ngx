@@ -25,6 +25,7 @@ import { SettingsService } from 'src/app/services/settings.service'
   selector: 'pngx-config',
   templateUrl: './config.component.html',
   styleUrl: './config.component.scss',
+  standalone: false,
 })
 export class ConfigComponent
   extends ComponentWithPermissions

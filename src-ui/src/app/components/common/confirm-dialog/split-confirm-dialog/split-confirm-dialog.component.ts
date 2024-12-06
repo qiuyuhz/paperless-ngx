@@ -10,6 +10,7 @@ import { PDFDocumentProxy } from 'ng2-pdf-viewer'
   selector: 'pngx-split-confirm-dialog',
   templateUrl: './split-confirm-dialog.component.html',
   styleUrl: './split-confirm-dialog.component.scss',
+  standalone: false,
 })
 export class SplitConfirmDialogComponent
   extends ConfirmDialogComponent

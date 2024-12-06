@@ -7,6 +7,7 @@ import { DocumentService } from 'src/app/services/rest/document.service'
   selector: 'pngx-rotate-confirm-dialog',
   templateUrl: './rotate-confirm-dialog.component.html',
   styleUrl: './rotate-confirm-dialog.component.scss',
+  standalone: false,
 })
 export class RotateConfirmDialogComponent extends ConfirmDialogComponent {
   public documentID: number

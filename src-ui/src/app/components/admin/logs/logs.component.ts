@@ -13,6 +13,7 @@ import { LogService } from 'src/app/services/rest/log.service'
   selector: 'pngx-logs',
   templateUrl: './logs.component.html',
   styleUrls: ['./logs.component.scss'],
+  standalone: false,
 })
 export class LogsComponent implements OnInit, OnDestroy {
   constructor(

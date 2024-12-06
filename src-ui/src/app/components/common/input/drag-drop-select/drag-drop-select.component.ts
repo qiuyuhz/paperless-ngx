@@ -18,6 +18,7 @@ import {
   selector: 'pngx-input-drag-drop-select',
   templateUrl: './drag-drop-select.component.html',
   styleUrl: './drag-drop-select.component.scss',
+  standalone: false,
 })
 export class DragDropSelectComponent extends AbstractInputComponent<string[]> {
   @Input() title: string = $localize`Selected items`

@@ -8,6 +8,7 @@ import { PDFDocumentProxy, PdfViewerComponent } from 'ng2-pdf-viewer'
   selector: 'pngx-delete-pages-confirm-dialog',
   templateUrl: './delete-pages-confirm-dialog.component.html',
   styleUrl: './delete-pages-confirm-dialog.component.scss',
+  standalone: false,
 })
 export class DeletePagesConfirmDialogComponent extends ConfirmDialogComponent {
   public documentID: number

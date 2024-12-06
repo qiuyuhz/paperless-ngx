@@ -13,6 +13,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms'
   selector: 'pngx-input-entries',
   templateUrl: './entries.component.html',
   styleUrl: './entries.component.scss',
+  standalone: false,
 })
 export class EntriesComponent extends AbstractInputComponent<object> {
   entries = []

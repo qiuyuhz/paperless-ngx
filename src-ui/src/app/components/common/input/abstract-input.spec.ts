@@ -18,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
       />
     </div>
   `,
+  standalone: false,
 })
 class TestComponent extends AbstractInputComponent<string> {
   constructor() {

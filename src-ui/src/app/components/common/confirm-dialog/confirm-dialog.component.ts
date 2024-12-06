@@ -6,6 +6,7 @@ import { interval, Subject, take } from 'rxjs'
   selector: 'pngx-confirm-dialog',
   templateUrl: './confirm-dialog.component.html',
   styleUrls: ['./confirm-dialog.component.scss'],
+  standalone: false,
 })
 export class ConfirmDialogComponent {
   constructor(public activeModal: NgbActiveModal) {}

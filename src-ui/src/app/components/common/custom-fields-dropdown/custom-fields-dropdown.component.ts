@@ -26,6 +26,7 @@ import {
   selector: 'pngx-custom-fields-dropdown',
   templateUrl: './custom-fields-dropdown.component.html',
   styleUrls: ['./custom-fields-dropdown.component.scss'],
+  standalone: false,
 })
 export class CustomFieldsDropdownComponent implements OnDestroy {
   @Input()

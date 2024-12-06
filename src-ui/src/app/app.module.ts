@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser'
-import { APP_INITIALIZER, NgModule } from '@angular/core'
+import { NgModule, inject, provideAppInitializer } from '@angular/core'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import {
@@ -545,12 +545,10 @@ function initializeApp(settings: SettingsService) {
     NgxBootstrapIconsModule.pick(icons),
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeApp,
-      deps: [SettingsService],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const initializerFn = initializeApp(inject(SettingsService))
+      return initializerFn()
+    }),
     DatePipe,
     CookieService,
     {

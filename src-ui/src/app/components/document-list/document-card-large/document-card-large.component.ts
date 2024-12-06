@@ -20,6 +20,7 @@ import { PreviewPopupComponent } from '../../common/preview-popup/preview-popup.
   selector: 'pngx-document-card-large',
   templateUrl: './document-card-large.component.html',
   styleUrls: ['./document-card-large.component.scss'],
+  standalone: false,
 })
 export class DocumentCardLargeComponent extends ComponentWithPermissions {
   DisplayField = DisplayField

@@ -8,7 +8,9 @@ import { DirtyComponent } from '@ngneat/dirty-check-forms'
 import { ActivatedRoute } from '@angular/router'
 import { Component } from '@angular/core'
 
-@Component({})
+@Component({
+  standalone: false,
+})
 class GenericDirtyComponent implements DirtyComponent {
   isDirty$: boolean
 }

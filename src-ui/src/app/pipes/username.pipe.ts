@@ -9,6 +9,7 @@ import { User } from '../data/user'
 
 @Pipe({
   name: 'username',
+  standalone: false,
 })
 export class UsernamePipe implements PipeTransform {
   users: User[]

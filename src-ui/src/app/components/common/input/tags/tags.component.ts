@@ -27,6 +27,7 @@ import { NgSelectComponent } from '@ng-select/ng-select'
   selector: 'pngx-input-tags',
   templateUrl: './tags.component.html',
   styleUrls: ['./tags.component.scss'],
+  standalone: false,
 })
 export class TagsComponent implements OnInit, ControlValueAccessor {
   constructor(

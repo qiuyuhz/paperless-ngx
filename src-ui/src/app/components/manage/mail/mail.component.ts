@@ -26,6 +26,7 @@ import { ActivatedRoute } from '@angular/router'
   selector: 'pngx-mail',
   templateUrl: './mail.component.html',
   styleUrls: ['./mail.component.scss'],
+  standalone: false,
 })
 export class MailComponent
   extends ComponentWithPermissions

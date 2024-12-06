@@ -40,6 +40,7 @@ import { ProfileEditDialogComponent } from '../common/profile-edit-dialog/profil
   selector: 'pngx-app-frame',
   templateUrl: './app-frame.component.html',
   styleUrls: ['./app-frame.component.scss'],
+  standalone: false,
 })
 export class AppFrameComponent
   extends ComponentWithPermissions

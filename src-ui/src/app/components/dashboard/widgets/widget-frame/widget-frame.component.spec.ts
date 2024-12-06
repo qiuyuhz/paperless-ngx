@@ -19,6 +19,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop'
       </button>
     </div>
   `,
+  standalone: false,
 })
 class TestComponent extends WidgetFrameComponent {}
 

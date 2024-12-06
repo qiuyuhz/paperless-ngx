@@ -18,6 +18,7 @@ import { SettingsService } from 'src/app/services/settings.service'
   selector: 'pngx-users-groups',
   templateUrl: './users-groups.component.html',
   styleUrls: ['./users-groups.component.scss'],
+  standalone: false,
 })
 export class UsersAndGroupsComponent
   extends ComponentWithPermissions

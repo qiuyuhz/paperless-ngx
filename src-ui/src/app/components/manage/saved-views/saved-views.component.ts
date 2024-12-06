@@ -13,6 +13,7 @@ import { ToastService } from 'src/app/services/toast.service'
   selector: 'pngx-saved-views',
   templateUrl: './saved-views.component.html',
   styleUrl: './saved-views.component.scss',
+  standalone: false,
 })
 export class SavedViewsComponent
   extends ComponentWithPermissions

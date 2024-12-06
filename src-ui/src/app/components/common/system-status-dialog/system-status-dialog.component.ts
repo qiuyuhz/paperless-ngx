@@ -11,6 +11,7 @@ import { Clipboard } from '@angular/cdk/clipboard'
   selector: 'pngx-system-status-dialog',
   templateUrl: './system-status-dialog.component.html',
   styleUrl: './system-status-dialog.component.scss',
+  standalone: false,
 })
 export class SystemStatusDialogComponent {
   public SystemStatusItemStatus = SystemStatusItemStatus

@@ -24,6 +24,7 @@ import { Subject, takeUntil } from 'rxjs'
   selector: 'pngx-custom-field-edit-dialog',
   templateUrl: './custom-field-edit-dialog.component.html',
   styleUrls: ['./custom-field-edit-dialog.component.scss'],
+  standalone: false,
 })
 export class CustomFieldEditDialogComponent
   extends EditDialogComponent<CustomField>

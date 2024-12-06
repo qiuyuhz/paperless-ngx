@@ -13,6 +13,7 @@ import { Router } from '@angular/router'
   selector: 'pngx-trash',
   templateUrl: './trash.component.html',
   styleUrl: './trash.component.scss',
+  standalone: false,
 })
 export class TrashComponent implements OnDestroy {
   public documentsInTrash: Document[] = []

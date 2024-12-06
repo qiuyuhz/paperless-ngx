@@ -11,6 +11,7 @@ import { User } from 'src/app/data/user'
   selector: 'pngx-document-notes',
   templateUrl: './document-notes.component.html',
   styleUrls: ['./document-notes.component.scss'],
+  standalone: false,
 })
 export class DocumentNotesComponent extends ComponentWithPermissions {
   noteForm: FormGroup = new FormGroup({

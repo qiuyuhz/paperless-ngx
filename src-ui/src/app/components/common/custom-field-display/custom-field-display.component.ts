@@ -18,6 +18,7 @@ import { DocumentService } from 'src/app/services/rest/document.service'
   selector: 'pngx-custom-field-display',
   templateUrl: './custom-field-display.component.html',
   styleUrl: './custom-field-display.component.scss',
+  standalone: false,
 })
 export class CustomFieldDisplayComponent implements OnInit, OnDestroy {
   CustomFieldDataType = CustomFieldDataType

@@ -15,6 +15,7 @@ import { Clipboard } from '@angular/cdk/clipboard'
   selector: 'pngx-profile-edit-dialog',
   templateUrl: './profile-edit-dialog.component.html',
   styleUrls: ['./profile-edit-dialog.component.scss'],
+  standalone: false,
 })
 export class ProfileEditDialogComponent implements OnInit, OnDestroy {
   public networkActive: boolean = false

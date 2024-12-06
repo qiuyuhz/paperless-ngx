@@ -43,6 +43,7 @@ import { HotKeyService } from 'src/app/services/hot-key.service'
   selector: 'pngx-document-list',
   templateUrl: './document-list.component.html',
   styleUrls: ['./document-list.component.scss'],
+  standalone: false,
 })
 export class DocumentListComponent
   extends ComponentWithPermissions

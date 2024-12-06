@@ -352,6 +352,7 @@ export class FilterableDropdownSelectionModel {
   selector: 'pngx-filterable-dropdown',
   templateUrl: './filterable-dropdown.component.html',
   styleUrls: ['./filterable-dropdown.component.scss'],
+  standalone: false,
 })
 export class FilterableDropdownComponent implements OnDestroy, OnInit {
   @ViewChild('listFilterTextInput') listFilterTextInput: ElementRef

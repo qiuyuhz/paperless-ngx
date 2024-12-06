@@ -24,6 +24,7 @@ import { By } from '@angular/platform-browser'
       </tbody>
     </table>
   `,
+  standalone: false,
 })
 class TestComponent {}
 

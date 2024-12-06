@@ -11,6 +11,7 @@ import { PermissionsService } from '../services/permissions.service'
       </button>
     </div>
   `,
+  standalone: false,
 })
 class TestComponent {}
 

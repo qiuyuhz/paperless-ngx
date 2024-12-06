@@ -17,6 +17,7 @@ import { environment } from 'src/environments/environment'
   selector: 'pngx-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  standalone: false,
 })
 export class DashboardComponent extends ComponentWithPermissions {
   public dashboardViews: SavedView[] = []

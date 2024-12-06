@@ -50,6 +50,7 @@ import { GlobalSearchType, SETTINGS_KEYS } from 'src/app/data/ui-settings'
   selector: 'pngx-global-search',
   templateUrl: './global-search.component.html',
   styleUrl: './global-search.component.scss',
+  standalone: false,
 })
 export class GlobalSearchComponent implements OnInit {
   public DataType = DataType

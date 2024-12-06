@@ -26,6 +26,7 @@ import { SETTINGS_KEYS } from 'src/app/data/ui-settings'
   selector: 'pngx-permissions-select',
   templateUrl: './permissions-select.component.html',
   styleUrls: ['./permissions-select.component.scss'],
+  standalone: false,
 })
 export class PermissionsSelectComponent
   extends ComponentWithPermissions

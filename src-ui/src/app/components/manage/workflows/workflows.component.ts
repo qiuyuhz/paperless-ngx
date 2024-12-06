@@ -17,6 +17,7 @@ import { EditDialogMode } from '../../common/edit-dialog/edit-dialog.component'
   selector: 'pngx-workflows',
   templateUrl: './workflows.component.html',
   styleUrls: ['./workflows.component.scss'],
+  standalone: false,
 })
 export class WorkflowsComponent
   extends ComponentWithPermissions

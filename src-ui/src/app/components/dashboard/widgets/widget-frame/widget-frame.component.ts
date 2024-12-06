@@ -4,6 +4,7 @@ import { AfterViewInit, Component, Input } from '@angular/core'
   selector: 'pngx-widget-frame',
   templateUrl: './widget-frame.component.html',
   styleUrls: ['./widget-frame.component.scss'],
+  standalone: false,
 })
 export class WidgetFrameComponent implements AfterViewInit {
   constructor() {}
