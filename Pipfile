@@ -20,6 +20,7 @@ django-multiselectfield = "*"
 django-soft-delete = "*"
 djangorestframework = "~=3.15.2"
 djangorestframework-guardian = "*"
+drafthorse = "*"
 drf-writable-nested = "*"
 bleach = "*"
 celery = {extras = ["redis"], version = "*"}

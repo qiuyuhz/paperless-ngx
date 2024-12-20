@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "148cd379b8ceeb857ea817bea1432821d8ea20ffe8d0bfc04c89871a87b87b0f"
+            "sha256": "bf51fa211450fbf310e070739f225429fd7947eb72ba2a48b6bc92a1cd4cb51e"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -628,6 +628,14 @@
             ],
             "index": "pypi",
             "version": "==0.3.0"
+        },
+        "drafthorse": {
+            "hashes": [
+                "sha256:4d16a6dd60708676465e63ac7ff1b5f140e8c1c58be7d0eda66bc309814fc5c5",
+                "sha256:e67d9f21bbada2282e5f63257c01cc56f8cb2667000f67e68bbddf6956484375"
+            ],
+            "index": "pypi",
+            "version": "==2.4.0"
         },
         "drf-writable-nested": {
             "hashes": [
@@ -1667,6 +1675,14 @@
             ],
             "markers": "python_version >= '3.8'",
             "version": "==2.9.0"
+        },
+        "pypdf": {
+            "hashes": [
+                "sha256:3bd4f503f4ebc58bae40d81e81a9176c400cbbac2ba2d877367595fb524dfdfc",
+                "sha256:425a129abb1614183fd1aca6982f650b47f8026867c0ce7c4b9f281c443d2740"
+            ],
+            "markers": "python_version >= '3.8'",
+            "version": "==5.1.0"
         },
         "python-dateutil": {
             "hashes": [

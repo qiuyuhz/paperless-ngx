@@ -1089,6 +1089,10 @@ TIKA_GOTENBERG_ENDPOINT = os.getenv(
 if TIKA_ENABLED:
     INSTALLED_APPS.append("paperless_tika.apps.PaperlessTikaConfig")
 
+EINVOICE_PARSER_ENABLED = __get_boolean("PAPERLESS_EINVOICE_PARSER_ENABLED", "NO")
+if EINVOICE_PARSER_ENABLED and TIKA_ENABLED:
+    INSTALLED_APPS.append("paperless_einvoice.apps.PaperlessEInvoiceConfig")
+
 AUDIT_LOG_ENABLED = __get_boolean("PAPERLESS_AUDIT_LOG_ENABLED", "true")
 if AUDIT_LOG_ENABLED:
     INSTALLED_APPS.append("auditlog")
