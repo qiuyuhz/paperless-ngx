@@ -8,7 +8,8 @@ from gotenberg_client.options import MarginUnitType
 from gotenberg_client.options import PageMarginsType
 from gotenberg_client.options import PageSize
 from gotenberg_client.options import PdfAFormat
-from jinja2 import Template
+from jinja2 import FileSystemLoader
+from jinja2.environment import Environment
 
 from documents.parsers import ParseError
 from paperless.models import OutputTypeChoices
@@ -32,7 +33,11 @@ class EInvoiceDocumentParser(TikaDocumentParser):
             context = {
                 "id": invoice.trade.agreement.seller.name,
             }
-            template = Template("templates/invoice.j2.html")
+            templateLoader = FileSystemLoader(
+                searchpath=Path(__file__).parent / "templates",
+            )
+            templateEnv = Environment(loader=templateLoader)
+            template = templateEnv.get_template("invoice.j2.html")
             html_file = Path(self.tempdir) / "invoice_as_html.html"
             html_file.write_text(
                 template.render(context),
