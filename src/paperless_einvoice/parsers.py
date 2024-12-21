@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from django.conf import settings
-from drafthorse.models.document import Document
+from drafthorse.models.document import Document as InvoiceDocument
 from gotenberg_client import GotenbergClient
 from gotenberg_client.options import MarginType
 from gotenberg_client.options import MarginUnitType
@@ -22,6 +22,10 @@ class EInvoiceDocumentParser(TikaDocumentParser):
     """
 
     logging_name = "paperless.parsing.einvoice"
+    template_loader = FileSystemLoader(
+        searchpath=Path(__file__).parent / "templates",
+    )
+    template_env = Environment(loader=template_loader)
 
     def convert_to_pdf(self, document_path: Path, file_name):
         pdf_path = Path(self.tempdir) / "convert.pdf"
@@ -29,15 +33,25 @@ class EInvoiceDocumentParser(TikaDocumentParser):
 
         with document_path.open("r") as f:
             xml = f.read().encode("utf-8")
-            invoice = Document.parse(xml)
+            invoice = InvoiceDocument.parse(xml)
             context = {
-                "id": invoice.trade.agreement.seller.name,
+                "id": invoice.header.id,
+                "seller_name": invoice.trade.agreement.seller.name,
+                "seller_address": invoice.trade.agreement.seller.address,
+                "buyer_name": invoice.trade.agreement.buyer.name,
+                "buyer_address": invoice.trade.agreement.buyer.address,
+                "issue_date": invoice.header.issue_date_time,
+                "items": [
+                    {
+                        "name": item.product.name,
+                        "description": item.product.description,
+                        # "quantity": item.product.quantity,
+                        "subtotal": item.settlement.monetary_summation.total_amount,
+                    }
+                    for item in invoice.trade.items.children  # TODO: Fix this
+                ],
             }
-            templateLoader = FileSystemLoader(
-                searchpath=Path(__file__).parent / "templates",
-            )
-            templateEnv = Environment(loader=templateLoader)
-            template = templateEnv.get_template("invoice.j2.html")
+            template = self.template_env.get_template("invoice.j2.html")
             html_file = Path(self.tempdir) / "invoice_as_html.html"
             html_file.write_text(
                 template.render(context),

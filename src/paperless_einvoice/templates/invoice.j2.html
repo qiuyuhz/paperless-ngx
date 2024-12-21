@@ -10,10 +10,10 @@
       <h1>Rechnung</h1>
 
       <p id="fromaddress">
-        <u>westnetz w.V., Karl-Heine-Str. 93, 04229 Leipzig</u>
+        <u>{{ seller_name }}: {{ seller_address }}</u>
       </p>
       <p id="toaddress">
-      {{ address | join("<br />") }}
+      {{ buyer_name }}: {{ buyer_address }}
       </p>
 
 
@@ -25,8 +25,7 @@
             </tr>
             <tr>
 		<td class="info">{{ id }}</td>
-		<td class="info">{{ period }}</td>
-		<td class="info">{{ date }}</td>
+		<td class="info">{{ issue_date }}</td>
             </tr>
         </table>
 
@@ -36,16 +35,12 @@
             <tr>
                 <th id="tablepos">Pos.</th>
                 <th id="tabledesc">Beschreibung</th>
-                <th id="tablesingle">Einzelpreis</th>
-                <th id="tablequantity">Anzahl</th>
                 <th id="tabletotal">Gesamtpreis</th>
             </tr>
 	    {% for item in items %}
             <tr class="position">
-		<td class="positions">{{ item.item }}</td>
+		<td class="positions">{{ item.name }}</td>
 		<td class="positions">{{ item.description }}</td>
-		<td class="positions">{{ item.price }}</td>
-		<td class="positions">{{ item.quantity }}</td>
 		<td class="positions">{{ item.subtotal }}</td>
             </tr>
 	    {% endfor %}
@@ -73,8 +68,6 @@
         <p>
         Diese Rechnung wurde maschinell erstellt und ist auch ohne Unterschrift gültig.
         </p>
-
-	<embed src="file:///{{ logo_asset_file }}" id="logo" />
 
     </body>
 </html>

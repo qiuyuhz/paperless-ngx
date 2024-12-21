@@ -198,6 +198,12 @@ Docker, this may be the `environment` key of the webserver or a
 containing the configuration parameters. Be sure to use the correct format
 and watch out for indentation if editing the YAML file.
 
+#### [`PAPERLESS_EINVOICE_PARSER_ENABLED=<bool>`](#PAPERLESS_EINVOICE_PARSER_ENABLED) {#PAPERLESS_EINVOICE_PARSER_ENABLED}
+
+: Enable (or disable) the e-invoice parser. Note that this feature requires Tika to be enabled.
+
+    Defaults to false.
+
 ## Paths and folders
 
 #### [`PAPERLESS_CONSUMPTION_DIR=<path>`](#PAPERLESS_CONSUMPTION_DIR) {#PAPERLESS_CONSUMPTION_DIR}
