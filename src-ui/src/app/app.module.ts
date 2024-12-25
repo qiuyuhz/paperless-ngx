@@ -189,7 +189,7 @@ import { PermissionsSelectComponent } from './components/common/permissions-sele
 import { PreviewPopupComponent } from './components/common/preview-popup/preview-popup.component'
 import { ProfileEditDialogComponent } from './components/common/profile-edit-dialog/profile-edit-dialog.component'
 import { SelectDialogComponent } from './components/common/select-dialog/select-dialog.component'
-import { ShareLinksDropdownComponent } from './components/common/share-links-dropdown/share-links-dropdown.component'
+import { ShareDocumentDropdownComponent } from './components/common/share-document-dropdown/share-document-dropdown.component'
 import { SystemStatusDialogComponent } from './components/common/system-status-dialog/system-status-dialog.component'
 import { TagComponent } from './components/common/tag/tag.component'
 import { ToastsComponent } from './components/common/toasts/toasts.component'
@@ -498,7 +498,7 @@ function initializeApp(settings: SettingsService) {
     UsernamePipe,
     LogoComponent,
     IsNumberPipe,
-    ShareLinksDropdownComponent,
+    ShareDocumentDropdownComponent,
     WorkflowsComponent,
     WorkflowEditDialogComponent,
     MailComponent,

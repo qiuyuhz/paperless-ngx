@@ -83,7 +83,7 @@ import { TagsComponent } from '../common/input/tags/tags.component'
 import { TextComponent } from '../common/input/text/text.component'
 import { TextAreaComponent } from '../common/input/textarea/textarea.component'
 import { PageHeaderComponent } from '../common/page-header/page-header.component'
-import { ShareLinksDropdownComponent } from '../common/share-links-dropdown/share-links-dropdown.component'
+import { ShareDocumentDropdownComponent } from '../common/share-document-dropdown/share-document-dropdown.component'
 import { DocumentNotesComponent } from '../document-notes/document-notes.component'
 import { DocumentDetailComponent } from './document-detail.component'
 
@@ -179,7 +179,7 @@ describe('DocumentDetailComponent', () => {
         SafeHtmlPipe,
         ConfirmDialogComponent,
         SafeUrlPipe,
-        ShareLinksDropdownComponent,
+        ShareDocumentDropdownComponent,
         CustomFieldsDropdownComponent,
         SplitConfirmDialogComponent,
         RotateConfirmDialogComponent,

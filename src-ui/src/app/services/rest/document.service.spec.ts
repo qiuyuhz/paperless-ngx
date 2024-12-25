@@ -311,6 +311,21 @@ it('should construct sort fields respecting permissions', () => {
   ).toBeUndefined()
 })
 
+it('should call appropriate api endpoint for email document', () => {
+  subscription = service
+    .emailDocument(
+      documents[0].id,
+      'hello@paperless-ngx.com',
+      'hello',
+      'world',
+      true
+    )
+    .subscribe()
+  httpTestingController.expectOne(
+    `${environment.apiBaseUrl}${endpoint}/${documents[0].id}/email/`
+  )
+})
+
 afterEach(() => {
   subscription?.unsubscribe()
   httpTestingController.verify()
